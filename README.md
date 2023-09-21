@@ -59,3 +59,6 @@ The ALU provides the following flags to indicate the status of the operation:
 ## Architecture Overview
 
 The VHDL ALU is implemented using combinational logic circuits and multiplexers. It takes two input data operands (A and B) and the three control bits (C2, C1, C0) as inputs. Based on the control bits, it performs the specified operation and generates the output result (R) along with the flags.
+
+
+https://www.edaplayground.com/x/Cnur
