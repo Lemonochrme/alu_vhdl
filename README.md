@@ -1,4 +1,4 @@
-# VHDL ALU (Arithmetic Logic Unit) README
+# VHDL ALU (Arithmetic Logic Unit)
 
 ## Table of Contents
 
