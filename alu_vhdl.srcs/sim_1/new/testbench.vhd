@@ -12,6 +12,11 @@ architecture sim of alu_tb is
     signal C : std_logic_vector(2 downto 0);
     signal Y : std_logic_vector(7 downto 0);
     
+    signal CF : std_logic := '0';
+    signal ZF : std_logic := '0';
+    signal NF : std_logic := '0';
+    signal OvF : std_logic := '0';
+    
 begin
     -- Instantiate the ALU unit
     uut: entity work.alu
@@ -19,15 +24,19 @@ begin
             A => A,
             B => B,
             C => C,
-            Y => Y
+            Y => Y,
+            CF => CF,
+            ZF => ZF,
+            NF => NF,
+            OvF => OvF
         );
     
     
 stimulus: process
 begin
     -- Initialize inputs
-    A <= "01010101";
-    B <= "00101100";
+    A <= "00000100";
+    B <= "00000100";
    
     C <= "000";  -- ADD
     wait for 100 ns;
@@ -43,7 +52,8 @@ begin
     wait for 100 ns;
     C <= "110";  -- Multiplication
     wait for 100 ns;
-   
+    C <= "111";  -- Other
+    wait for 100 ns;
 
     wait;
 end process;

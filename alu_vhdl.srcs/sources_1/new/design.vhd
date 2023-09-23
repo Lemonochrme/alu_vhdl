@@ -1,6 +1,5 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
-use IEEE.STD_LOGIC_ARITH.ALL;
 use IEEE.STD_LOGIC_UNSIGNED.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
@@ -31,6 +30,7 @@ end alu;
 architecture alu_arch of alu is
 begin
     process(A, B, C) is
+    variable result : unsigned(15 downto 0);
     begin
         case C is
             when "000" =>  -- ADD
@@ -46,8 +46,14 @@ begin
             when "101" =>  -- NOT (Invert A)
                 Y <= not A;
             when "110" =>  -- Multiplication
+                result := unsigned(A) * unsigned(B);
+                Y <= std_logic_vector(result(7 downto 0));
             when others =>
                 Y <= (others => '0');
+                CF <= '0';
+                ZF <= '0';
+                NF <= '0';
+                OvF <= '0';
         end case;
     end process;
 end alu_arch;
