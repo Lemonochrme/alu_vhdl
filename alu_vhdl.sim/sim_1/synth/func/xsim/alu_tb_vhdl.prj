@@ -1,0 +1,7 @@
+# compile vhdl design source files
+vhdl xil_defaultlib  \
+"alu_tb_func_synth.vhd" \
+"../../../../../alu_vhdl.srcs/sim_1/new/testbench.vhd" \
+
+# Do not sort compile order
+nosort

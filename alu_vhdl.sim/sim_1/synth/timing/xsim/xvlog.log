@@ -1,0 +1,3 @@
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/robin/Dev/alu_vhdl/alu_vhdl.sim/sim_1/synth/timing/xsim/alu_tb_time_synth.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module alu
+INFO: [VRFC 10-311] analyzing module glbl
