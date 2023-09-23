@@ -11,7 +11,6 @@ architecture sim of alu_tb is
     signal B : std_logic_vector(7 downto 0);
     signal C : std_logic_vector(2 downto 0);
     signal Y : std_logic_vector(7 downto 0);
-    signal clk : std_logic := '0';
     
 begin
     -- Instantiate the ALU unit
@@ -23,20 +22,28 @@ begin
             Y => Y
         );
     
-    -- Clock generation process (assuming a clock period of 10 ns)
-    clk_gen: process
-    begin
-        wait for 5 ns;
-        clk <= not clk;
-    end process;
     
 stimulus: process
 begin
     -- Initialize inputs
     A <= "01010101";
     B <= "00101100";
-    
-    C <= "010";  -- SUB
+   
+    C <= "000";  -- ADD
+    wait for 100 ns;
+    C <= "001";  -- SUB
+    wait for 100 ns;
+    C <= "010";  -- AND
+    wait for 100 ns;
+    C <= "011";  -- OR
+    wait for 100 ns;
+    C <= "100";  -- XOR
+    wait for 100 ns;
+    C <= "101";  -- NOT
+    wait for 100 ns;
+    C <= "110";  -- Multiplication
+    wait for 100 ns;
+   
 
     wait;
 end process;
