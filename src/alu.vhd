@@ -19,17 +19,34 @@ end alu;
 -- 010                          AND
 -- 011                          OR
 -- 100                          XOR
--- 101                          NOT
+-- 101                          NOT (return 0x1 if true, else return 0x0)
 -- 110                          MUL
 
-
 architecture behavior_alu of alu is
+    -- Internal variables
+    shared variable mul_result : STD_LOGIC_VECTOR(15 downto 0);
+
 begin
-  process(a, b, op) is
-  begin
-      if op = "000" then
-          s <= a + b;
-      else 
-      end if;
-  end process;
+    process(a, b, op) is
+    begin
+        case op is
+            when "000" =>
+                s <= a + b;
+            when "001" =>
+                s <= a - b;
+            when "010" =>
+                s <= a AND b;
+            when "011" =>
+                s <= a OR b;
+            when "100" =>
+                s <= a XOR b;
+            when "101" =>
+                s <= NOT a;
+            when "110" =>
+                mul_result := (a * b);
+                s <= mul_result(7 downto 0);
+            when others =>
+                s <= "00000000";
+        end case;
+    end process;
 end behavior_alu;
