@@ -34,7 +34,7 @@ begin
     begin
         case C is
             when "000" =>  -- ADD
-                Y <= std_logic_vector(A + B);
+                Y <= std_logic_vector(A + B);q
             when "001" =>  -- SUB
                 Y <= std_logic_vector(A - B);
             when "010" =>  -- AND
@@ -46,7 +46,6 @@ begin
             when "101" =>  -- NOT (Invert A)
                 Y <= not A;
             when "110" =>  -- Multiplication
-                -- Implement multiplication here (if needed)
             when others =>
                 Y <= (others => '0');
         end case;
