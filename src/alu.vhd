@@ -30,8 +30,9 @@ end alu;
 
 architecture behavior_alu of alu is
     -- Internal variables
-    shared variable mul_result :    STD_LOGIC_VECTOR(15 downto 0);
+    shared variable buffer_s_16 :    STD_LOGIC_VECTOR(15 downto 0);
     shared variable buffer_s :      STD_LOGIC_VECTOR(7 downto 0);
+    shared variable carry_s :      STD_LOGIC_VECTOR(8 downto 0);
     shared variable buffer_flags :  STD_LOGIC_VECTOR(3 downto 0);
 
 begin
@@ -40,9 +41,19 @@ begin
         buffer_flags := "0000";
         case op is
             when "000" =>
-                buffer_s := a + b;
+                -- calculcating a + b by concatening 8 bits to 9 bits and checking the MSB
+                carry_s := ('0' & a) + ('0' & b);
+                buffer_s := carry_s(7 downto 0);
+                buffer_flags(0) := carry_s(8);
+                -- Checking negative
+                if (SIGNED(buffer_s) < (0)) then
+                    buffer_flags(1) := '1';
+                end if;
             when "001" =>
-                buffer_s := a - b;
+                carry_s := ('0' & a) - ('0' & b);
+                buffer_s := carry_s(7 downto 0);
+                -- borrowing when negative
+                buffer_flags(1) := carry_s(8);
             when "010" =>
                 buffer_s := a AND b;
             when "011" =>
@@ -52,15 +63,20 @@ begin
             when "101" =>
                 buffer_s := NOT a;
             when "110" =>
-                mul_result := (a * b);
-                buffer_s := mul_result(7 downto 0);
+                buffer_s_16 := (a * b);
+                buffer_s := buffer_s_16(7 downto 0);
+                -- In the context of a multiplication overflow can be interpreted in two manners
+                -- A basic overflow for both signed/unsigned. A negative flag for signed.
+                if (buffer_s_16 > X"FF") then
+                    buffer_flags(3) := '1';
+                end if;
             when others =>
                 buffer_s := "00000000";
         end case;
         
-        -- Checking for negative value ONLY FOR CALCULUS BEHAVIORS
-        if (SIGNED(buffer_s) < (0)) AND (op = "000" OR op = "001" OR op = "110") then
-            buffer_flags(1) := '1';
+        -- checking for 0 value
+        if (buffer_s = 0) then
+            buffer_flags(2) := '1';
         end if;
         
         -- Writing from the buffer to the output
