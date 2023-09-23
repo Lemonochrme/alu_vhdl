@@ -34,7 +34,7 @@ begin
     begin
         case C is
             when "000" =>  -- ADD
-                Y <= std_logic_vector(A + B);q
+                Y <= std_logic_vector(A + B);
             when "001" =>  -- SUB
                 Y <= std_logic_vector(A - B);
             when "010" =>  -- AND
