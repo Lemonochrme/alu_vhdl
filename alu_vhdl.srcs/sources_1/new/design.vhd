@@ -46,10 +46,15 @@ begin
                     CF <= '0';
                 end if;
             when "001" =>  -- SUB
-                Y <= std_logic_vector(A - B);
+                -- Y <= std_logic_vector(A - B);
+                temp := unsigned('0' & A) - unsigned('0' & B);
+                Y <= std_logic_vector(temp(7 downto 0));
                 
-                -- temp := unsigned(A) - unsigned(B);
-                -- Y <= std_logic_vector(temp);
+                if unsigned(A) < unsigned(B) then
+                    NF <= '1';
+                else
+                    NF <= '0';
+                end if;
             when "010" =>  -- AND
                 Y <= A and B;
             when "011" =>  -- OR
@@ -65,7 +70,7 @@ begin
                     OvF <= '1';
                 else
                     OvF <= '0';
-                end if;  
+                end if; 
             when others =>
                 Y <= (others => '0');
                 CF <= '0';
