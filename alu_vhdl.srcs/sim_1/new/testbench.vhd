@@ -62,7 +62,9 @@ begin
     C <= "110";
     
     -- Carry Flag
-    
+    A <= "11111111";
+    B <= "00000001";
+    C <= "000";
     
     wait;
 end process;

@@ -27,16 +27,29 @@ end alu;
 -- 101                          NOT
 -- 110                          Multiplication
 
+
+
 architecture alu_arch of alu is
 begin
     process(A, B, C) is
-    variable result : signed(15 downto 0);
+        variable result : signed(15 downto 0) := (others => '0');
+        variable temp : unsigned(8 downto 0) := (others => '0');
+        
     begin
         case C is
             when "000" =>  -- ADD
-                Y <= std_logic_vector(A + B);
+                temp := unsigned('0' & A) + unsigned('0' & B);
+                Y <= std_logic_vector(temp(7 downto 0));
+                if temp(8) = '1' then
+                    CF <= '1';
+                else
+                    CF <= '0';
+                end if;
             when "001" =>  -- SUB
                 Y <= std_logic_vector(A - B);
+                
+                -- temp := unsigned(A) - unsigned(B);
+                -- Y <= std_logic_vector(temp);
             when "010" =>  -- AND
                 Y <= A and B;
             when "011" =>  -- OR
