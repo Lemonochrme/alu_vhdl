@@ -54,7 +54,16 @@ begin
     wait for 100 ns;
     C <= "111";  -- Other
     wait for 100 ns;
-
+    
+    
+    -- Multiplication Overflow Flag
+    A <= "01111111";
+    B <= "00000010";
+    C <= "110";
+    
+    -- Carry Flag
+    
+    
     wait;
 end process;
     

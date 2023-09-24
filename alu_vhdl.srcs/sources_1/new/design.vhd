@@ -30,7 +30,7 @@ end alu;
 architecture alu_arch of alu is
 begin
     process(A, B, C) is
-    variable result : unsigned(15 downto 0);
+    variable result : signed(15 downto 0);
     begin
         case C is
             when "000" =>  -- ADD
@@ -46,8 +46,13 @@ begin
             when "101" =>  -- NOT (Invert A)
                 Y <= not A;
             when "110" =>  -- Multiplication
-                result := unsigned(A) * unsigned(B);
+                result := signed(A) * signed(B);
                 Y <= std_logic_vector(result(7 downto 0));
+                if result > 127 or result < -128 then
+                    OvF <= '1';
+                else
+                    OvF <= '0';
+                end if;  
             when others =>
                 Y <= (others => '0');
                 CF <= '0';
